@@ -1,0 +1,38 @@
+hazelcast:
+    cluster-name: comesco
+    network:
+        port:
+            auto-increment: true
+            port-count: 100
+            port: 5701
+        join:
+            multicast:
+                enabled: false
+            tcp-ip:
+                enabled: true
+                interface: 127.0.0.1
+    map:
+        messageMap:
+            in-memory-format: BINARY
+            metadata-policy: CREATE_ON_UPDATE
+            statistics-enabled: true
+            per-entry-stats-enabled: false
+            cache-deserialized-values: ALWAYS
+            backup-count: 1
+            async-backup-count: 1
+            time-to-live-seconds: 86400
+            max-idle-seconds: 14400
+            eviction:
+                eviction-policy: LFU
+                max-size-policy: PER_NODE
+                size: 100000
+            merge-policy:
+                batch-size: 100
+                class-name: PutIfAbsentMergePolicy
+            read-backup-data: true
+            entry-listeners:
+            - class-name: com.dapeng.play.hazelcast.MapLogEntryListener
+              include-value: false
+              local: false
+    listeners:
+        - com.dapeng.play.hazelcast.MemberListener
